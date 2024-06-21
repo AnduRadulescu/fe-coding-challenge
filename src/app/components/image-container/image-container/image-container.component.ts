@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Product } from 'src/app/products/product';
 
 @Component({
   selector: 'app-image-container',
@@ -6,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./image-container.component.scss']
 })
 export class ImageContainerComponent {
-  @Input()  product: any = null;
+  @Input() product: Product | null = null
 }

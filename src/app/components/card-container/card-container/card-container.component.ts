@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Product } from '@ngneat/falso';
 import { Page } from 'src/app/products/page';
+import { Product } from 'src/app/products/product';
 
 @Component({
   selector: 'app-card-container',
@@ -9,6 +9,6 @@ import { Page } from 'src/app/products/page';
 })
 export class CardContainerComponent {
 
-  @Input() products: any = null;
+  @Input() products: Page<Product> | null = null;
 
 }

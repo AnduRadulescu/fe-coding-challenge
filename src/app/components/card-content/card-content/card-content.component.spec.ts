@@ -11,9 +11,8 @@ describe('CardContentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CardContentComponent ]
-    })
-    .compileComponents();
+      declarations: [CardContentComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CardContentComponent);
     component = fixture.componentInstance;
@@ -26,14 +25,21 @@ describe('CardContentComponent', () => {
   });
 
   it('should have div on first position and h3, description-container and categories as children ', () => {
-    fixture.componentInstance.product = {categories: ['category1', 'category2']};
+    fixture.componentInstance.product = {
+      image: 'image-url',
+      title: 'Product title',
+      url: '',
+      description: '',
+      categories: ['category1', 'category2'],
+    };
     fixture.detectChanges();
 
     const div = debugElement.query(By.css('div'));
     const h3 = debugElement.query(By.css('h3'));
-    const descriptionContainer = debugElement.query(By.css('.description-container'));
+    const descriptionContainer = debugElement.query(
+      By.css('.description-container')
+    );
     const categories = debugElement.queryAll(By.css('.category'));
-
 
     expect(div.children[0]).toBe(h3);
     expect(div.children[1]).toBe(descriptionContainer);
@@ -42,7 +48,13 @@ describe('CardContentComponent', () => {
   });
 
   it('should have h3 with product title', () => {
-    fixture.componentInstance.product = {title: 'Product title'};
+    fixture.componentInstance.product = {
+      image: 'image-url',
+      title: 'Product title',
+      url: '',
+      description: '',
+      categories: ['category1', 'category2'],
+    };
     fixture.detectChanges();
 
     const h3 = debugElement.query(By.css('h3'));
@@ -50,13 +62,20 @@ describe('CardContentComponent', () => {
     expect(h3.nativeElement.textContent).toBe('Product title');
   });
 
-  it('should have div description-container with p as child and description on it', () => {
-    fixture.componentInstance.product = {description: 'some description'};
+  it('should have div with class description-container and p as child with description on it', () => {
+    fixture.componentInstance.product = {
+      image: 'image-url',
+      title: 'Product title',
+      url: '',
+      description: 'some description',
+      categories: ['category1', 'category2'],
+    };
     fixture.detectChanges();
 
-    const descriptionContainer = debugElement.query(By.css('.description-container'));
+    const descriptionContainer = debugElement.query(
+      By.css('.description-container')
+    );
     const description = debugElement.query(By.css('p'));
-
 
     expect(descriptionContainer.children[0]).toBe(description);
     expect(description.attributes['class']).toBe('description');
@@ -64,7 +83,14 @@ describe('CardContentComponent', () => {
   });
 
   it('should have div categories with category name', () => {
-    fixture.componentInstance.product = {categories: ['category1', 'category2']};
+    fixture.componentInstance.product = {
+      image: 'image-url',
+      title: 'Product title',
+      url: '',
+      description: '',
+      categories: ['category1', 'category2'],
+    };
+
     fixture.detectChanges();
 
     const categories = debugElement.queryAll(By.css('.category'));

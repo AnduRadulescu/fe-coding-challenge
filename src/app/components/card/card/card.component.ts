@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input } from '@angular/core';
+import { Product } from 'src/app/products/product';
 
 @Component({
   selector: 'app-card',
@@ -7,7 +8,7 @@ import { Component, Inject, Input } from '@angular/core';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent {
-  @Input() product: any = null
+  @Input() product: Product | null = null;
   private window: Window;
 
   constructor(@Inject(DOCUMENT) private document: Document) { this.window = this.document.defaultView!;}

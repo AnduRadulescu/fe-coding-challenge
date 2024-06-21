@@ -1,19 +1,8 @@
-import { Component, Inject } from '@angular/core';
-import {
-  EMPTY,
-  Observable,
-  Subject,
-  catchError,
-  concatMap,
-  of,
-  scan,
-  startWith,
-  tap,
-} from 'rxjs';
+import { Component } from '@angular/core';
+import { BehaviorSubject, EMPTY, Observable, Subscription, catchError, concatMap, scan, tap } from 'rxjs';
 import { Page } from './products/page';
 import { Product } from './products/product';
 import { ProductService } from './products/product.service';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +20,7 @@ export class AppComponent {
     this.initializeProductStream();
   }
 
-  initializeProductStream() {
+  private initializeProductStream() {
     this.products$ = this.productService.loadMoreSubject.pipe(
       tap(() => this.setLoading(true)),
       concatMap(() => this.loadProducts()),
@@ -39,18 +28,18 @@ export class AppComponent {
     );
   }
 
-  setLoading(isLoading: boolean) {
+  private setLoading(isLoading: boolean) {
     this.productService.isLoading$.next(isLoading);
   }
 
-  loadProducts() {
+  private loadProducts() {
     return this.productService.get(++this.pageNumber).pipe(
       catchError((error) => this.handleError(error)),
       tap(() => this.setLoading(false))
     );
   }
 
-  handleError(error: Error) {
+  private handleError(error: Error) {
     alert('Failed to load products!');
     console.error('Error loading products:', error);
     this.errorMessage = 'Failed to load products!';
@@ -58,10 +47,10 @@ export class AppComponent {
     return EMPTY;
   }
 
-  accumulateProducts(acc: Page<Product>, value: Page<Product>) {
+  private accumulateProducts(acc: Page<Product>, value: Page<Product>) {
     return {
       more: value.more,
-      content: [...acc.content, ...value.content]
+      content: [...acc.content, ...value.content],
     };
   }
 }

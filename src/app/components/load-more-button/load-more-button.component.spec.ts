@@ -2,29 +2,28 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoadMoreButtonComponent } from './load-more-button.component';
 import { ProductService } from 'src/app/products/product.service';
-import { BehaviorSubject, Subject, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
+import { Page } from 'src/app/products/page';
+import { Product } from 'src/app/products/product';
 
 export class MockProductService {
   public loadMoreSubject = new Subject<void>();
   public isLoading$ = new BehaviorSubject<boolean>(false);
-  get() {
-    return of([
+  get():  Observable<Page<Product>> {
+    return of(
       {
         content: [
           {
             url: 'https://example.com/image.png',
             title: 'Product 1',
             description: 'Description 1',
-          },
-          {
-            url: 'https://example.com/image.png',
-            title: 'Product 2',
-            description: 'Description 2',
+            image: '',
+            categories: [''],
           },
         ],
         more: true,
       },
-    ]);
+    );
   }
 }
 

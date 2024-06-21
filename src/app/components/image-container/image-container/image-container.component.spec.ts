@@ -33,7 +33,7 @@ describe('ImageContainerComponent', () => {
   });
 
   it('should have div with class image-container and img with src and alt ', () => {
-    fixture.componentInstance.product = {image: 'image-url', title: 'Product title'};
+    fixture.componentInstance.product = {image: 'image-url', title: 'Product title', url:'', description: '', categories: ['']};
     fixture.detectChanges();
 
     const div = debugElement.query(By.css('div'));

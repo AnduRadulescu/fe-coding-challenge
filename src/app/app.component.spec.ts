@@ -1,11 +1,11 @@
 import { LoadMoreButtonComponent } from './components/load-more-button/load-more-button.component';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { Component, DebugElement, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { MockProductService } from './components/load-more-button/load-more-button.component.spec';
 import { ProductService } from './products/product.service';
-import { throwError } from 'rxjs';
+import { skip, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-card-container',
@@ -29,7 +29,6 @@ describe('AppComponent', () => {
 
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     debugElement = fixture.debugElement;
     productService = TestBed.inject(ProductService);
   });
@@ -40,8 +39,9 @@ describe('AppComponent', () => {
 
   it('should contain a div as main first element with app-card-container as child, then app-load-more-button', () => {
     spyOn(productService, 'get').and.callThrough();
-    productService.loadMoreSubject.next();
 
+    fixture.detectChanges();
+    productService.loadMoreSubject.next();
     fixture.detectChanges();
 
     const div = debugElement.query(By.css('.products'));
@@ -57,9 +57,8 @@ describe('AppComponent', () => {
     spyOn(window, 'alert');
     spyOn(productService.isLoading$, 'next');
 
-    productService.loadMoreSubject.next();
     fixture.detectChanges();
-    const errorElement = debugElement.query(By.css('.error'));
+    productService.loadMoreSubject.next();
 
     expect(window.alert).toHaveBeenCalled();
     expect(productService.isLoading$.next).toHaveBeenCalledWith(false);
@@ -69,22 +68,41 @@ describe('AppComponent', () => {
     spyOn(productService, 'get').and.callThrough();
     spyOn(productService.isLoading$, 'next');
 
-    productService.loadMoreSubject.next();
     fixture.detectChanges();
+    productService.loadMoreSubject.next();
 
     expect(productService.isLoading$.next).toHaveBeenCalledWith(false);
   });
 
-  xit('should acumulate products when button is clicked', () => {
+  it('should get products when button is clicked', () => {
     spyOn(productService, 'get').and.callThrough();
-    spyOn(productService.isLoading$, 'next');
-
-    productService.loadMoreSubject.next();
-    // productService.loadMoreSubject.next();
-    fixture.detectChanges();
 
     component.products$.subscribe((products) => {
-      expect(products.content.length).toBeGreaterThan(4);
+      expect(products.content.length).toBe(1);
+      expect(products.more).toBeTrue();
     });
+
+    fixture.detectChanges();
+    productService.loadMoreSubject.next();
+
+    expect(productService.isLoading$.value).toBeFalse();
+    expect(productService.get).toHaveBeenCalledWith(1);
+  });
+
+  it('should acumulate products when button is clicked multiple times', () => {
+    spyOn(productService, 'get').and.callThrough();
+
+    component.products$.pipe(skip(1)).subscribe((products) => {
+      expect(products.content.length).toBe(2);
+      expect(products.more).toBeTrue();
+    });
+
+    fixture.detectChanges();
+    productService.loadMoreSubject.next();
+    productService.loadMoreSubject.next();
+
+    expect(productService.isLoading$.value).toBeFalse();
+    expect(productService.get).toHaveBeenCalled();
+    expect(productService.get).toHaveBeenCalledTimes(2);
   });
 });

@@ -1,3 +1,9 @@
+Hello, just wanted to give you a few tips regarding my project.
+The codding challange has been done using angular, typescript, css, and rxjs. I tried to split the app in some components, I know maybe it's an over kill, but I thought that this way is much cleaner and nicer. OK, so we have app-component as main comp, then card-container which aggregates all cards in the app, card-component which contains image-container and card-content. Finally we have load-more-btn comp which is the loading button. Theses components are coming with spec files where tests have been implemented. 
+
+To run the application just type "npm start".
+To run the tests just type "npm tests".
+
 # Products | Coding Kata
 
 Welcome to this little coding kata. Your task is to implement a small set of

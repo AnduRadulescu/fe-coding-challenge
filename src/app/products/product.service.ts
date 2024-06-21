@@ -6,7 +6,7 @@ import {
   randProductName,
   randUrl
 } from '@ngneat/falso';
-import { delay, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, delay, Observable, of, Subject, throwError } from 'rxjs';
 import { Page } from './page';
 import { Product } from './product';
 
@@ -21,12 +21,15 @@ export class ProductService {
   private static readonly PAGE_COUNT = 4;
   private static readonly PAGE_ERROR = 0.1;
 
+  public loadMoreSubject = new Subject<void>();
+  public isLoading$ = new BehaviorSubject<boolean>(false);
+
   /**
    * Get a page of products.
-   * 
+   *
    * *Note:* This is a fake service that returns random data. It simulates a
    * network request by delaying the response and randomly returning an error.
-   * 
+   *
    * @param page The page number.
    * @returns An observable of the page of products.
    */

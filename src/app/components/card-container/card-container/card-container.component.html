@@ -1,0 +1,6 @@
+<div class="card-container">
+  <ng-container *ngFor="let product of products?.content">
+    <!-- <pre >{{ product | json }}</pre> -->
+    <app-card [product]="product"></app-card>
+  </ng-container>
+</div>

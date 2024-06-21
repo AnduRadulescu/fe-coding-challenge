@@ -1,0 +1,8 @@
+<button (click)="loadMore()" [disabled]="isLoading$ | async" class="more">
+  <ng-container *ngIf="isLoading$ | async; else loadMoreText">
+    <span class="spinner"></span> <!-- Use your spinner class/icon here -->
+  </ng-container>
+  <ng-template #loadMoreText>
+    Load More
+  </ng-template>
+</button>

@@ -1,0 +1,14 @@
+.image-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 40%; /* This creates a 2:1 aspect ratio */
+  overflow: hidden;
+}
+
+img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  object-fit: cover;
+}

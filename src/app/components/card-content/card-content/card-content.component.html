@@ -1,0 +1,7 @@
+<div class="card-content">
+  <h3>{{ product?.title }}</h3>
+  <div class="description-container">
+    <p class="description">{{ product?.description }}</p>
+  </div>
+  <div *ngFor="let category of product?.categories" class="category">{{ category }}</div>
+</div>
